@@ -21,6 +21,7 @@ class HomeViewModel : ViewModel() {
     val loading = MutableLiveData(false)
 
     init {
+        "HomeViewModel init".log()
         getArticle()
     }
 

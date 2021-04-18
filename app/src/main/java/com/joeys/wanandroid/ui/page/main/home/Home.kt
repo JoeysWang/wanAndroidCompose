@@ -13,17 +13,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.os.bundleOf
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.google.accompanist.imageloading.MaterialLoadingImage
 import com.joeys.wanandroid.R
 import com.joeys.wanandroid.data.Article
 import com.joeys.wanandroid.ui.page.web.WebActivity
 import com.joeys.wanandroid.ui.theme.typography
 
 @Composable
-fun Home(lazyListState: LazyListState, navController: NavHostController) {
-    val homeViewModel: HomeViewModel = viewModel()
+fun Home(
+    homeViewModel: HomeViewModel,
+    lazyListState: LazyListState,
+    navController: NavHostController
+) {
 
     Box(Modifier.fillMaxSize()) {
         Column() {

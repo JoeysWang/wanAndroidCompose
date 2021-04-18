@@ -1,37 +1,26 @@
 package com.joeys.wanandroid.ui.page.main.profile
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.*
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.navigate
-import com.google.accompanist.coil.CoilImage
 import com.joeys.wanandroid.ui.theme.typography
-import com.joeys.wanandroid.widget.SwipeRefreshLayout
-import com.joeys.wanandroid.widget.SwipeRefreshLayoutState
 import kotlin.math.roundToInt
 
 @Composable
-fun Profile(navController: NavHostController) {
-    val userViewModel: UserViewModel = viewModel()
-
+fun Profile(userViewModel: UserViewModel, navController: NavHostController) {
     Column(
         Modifier
             .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
@@ -40,12 +29,12 @@ fun Profile(navController: NavHostController) {
             text = "Join WanAndroid", style = typography.h4,modifier = Modifier.padding(top = 26.dp,bottom = 26.dp)
         )
 
-        OutlinedTextField(value = userViewModel.userName.collectAsState().value, onValueChange = {
+        OutlinedTextField(value = userViewModel.userName.observeAsState().value.orEmpty(), onValueChange = {
             userViewModel.userName.value = it
         }, label = { Text(text = "用户名") })
 
         OutlinedTextField(
-            value = userViewModel.passWord.collectAsState().value,
+            value = userViewModel.passWord.observeAsState().value.orEmpty(),
             onValueChange = {
                 userViewModel.passWord.value = it
             },
@@ -53,7 +42,7 @@ fun Profile(navController: NavHostController) {
         Spacer(modifier = Modifier.height(26.dp))
         Button(
             onClick = { },
-            enabled = userViewModel.loginEnable.value,
+
             modifier = Modifier.width(100.dp)
         ) {
             Text(text = "登录")

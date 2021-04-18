@@ -1,9 +1,6 @@
 package com.joeys.wanandroid.ui.page.main
 
 import androidx.compose.animation.*
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -11,19 +8,23 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.activity
 import androidx.navigation.compose.*
 import com.joeys.wanandroid.R
 import com.joeys.wanandroid.Screen
 import com.joeys.wanandroid.ui.page.main.home.Home
+import com.joeys.wanandroid.ui.page.main.home.HomeViewModel
 import com.joeys.wanandroid.ui.page.main.home.isScrollingUp
 import com.joeys.wanandroid.ui.page.main.profile.Profile
+import com.joeys.wanandroid.ui.page.main.profile.UserViewModel
 import com.joeys.wanandroid.ui.page.web.WebActivity
-import kotlinx.coroutines.delay
 
 @Composable
 fun MainPage() {
+
+
     val navController = rememberNavController()
     val homePages = listOf(
         Screen.Home,
@@ -65,9 +66,12 @@ fun MainPage() {
 
 @Composable
 private fun Content(lazyListState: LazyListState, navController: NavHostController) {
+    val homeViewModel: HomeViewModel = viewModel()
+    val userViewModel: UserViewModel = viewModel()
+
     NavHost(navController = navController, startDestination = Screen.Home.route) {
-        composable(Screen.Home.route) { Home(lazyListState, navController) }
-        composable(Screen.Profile.route) { Profile(navController) }
+        composable(Screen.Home.route) { Home(homeViewModel,lazyListState, navController) }
+        composable(Screen.Profile.route) { Profile(userViewModel,navController) }
         activity(R.id.navigation_web_activity) {
             activityClass = WebActivity::class
         }
