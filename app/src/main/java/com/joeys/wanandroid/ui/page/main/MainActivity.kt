@@ -1,11 +1,8 @@
-package com.joeys.wanandroid
+package com.joeys.wanandroid.ui.page.main
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.core.view.WindowCompat
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.joeys.wanandroid.ui.theme.MyTheme
 
 class MainActivity : AppCompatActivity() {
@@ -13,7 +10,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyTheme {
-                WanAndroidApp(onBackPressedDispatcher)
+                MainPage()
             }
         }
     }

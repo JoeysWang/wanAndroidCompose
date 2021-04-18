@@ -1,8 +1,11 @@
 package com.joeys.wanandroid.extend
 
 import android.content.Context
+import android.os.Build
 import android.util.DisplayMetrics
 import android.util.Log
+import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import com.joeys.wanandroid.network.TAG
 
@@ -38,4 +41,19 @@ fun String.underlineToCamel(): String {
         acc
     }.toString()
 
+}
+fun setStatusBarLightMode(
+    window: Window,
+    isLightMode: Boolean
+) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val decorView: View = window.decorView
+        var vis: Int = decorView.systemUiVisibility
+        vis = if (isLightMode) {
+            vis or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        } else {
+            vis and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+        }
+        decorView.systemUiVisibility = vis
+    }
 }

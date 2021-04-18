@@ -3,18 +3,18 @@ import com.joeys.wanAndroid.buildsrc.Libs
 plugins {
     id("com.android.application")
     id("kotlin-android")
+    id("kotlin-parcelize")
 }
 
 android {
     compileSdk = 30
-    buildToolsVersion = "30.0.3"
 
     defaultConfig {
-        applicationId = "com.joeys.wanandroid"
-        minSdk = 21
-        targetSdk = 30
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = Libs.Project.applicationId
+        minSdk = Libs.Project.minSdk
+        targetSdk = Libs.Project.targetSdk
+        versionCode = Libs.Project.versionCode
+        versionName = Libs.Project.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -43,8 +43,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.32"
-        kotlinCompilerVersion = "1.4.32"
+        kotlinCompilerExtensionVersion = Libs.AndroidX.Compose.version
     }
 }
 
@@ -58,6 +57,7 @@ dependencies {
     implementation(Libs.AndroidX.Lifecycle.viewModelCompose)
     implementation(Libs.AndroidX.Navigation.fragment)
     implementation(Libs.AndroidX.Navigation.uiKtx)
+    implementation(Libs.AndroidX.Navigation.composeNavigation)
     implementation(Libs.material)
     implementation(Libs.AndroidX.Compose.layout)
     implementation(Libs.AndroidX.Compose.material)
@@ -70,6 +70,10 @@ dependencies {
     implementation(Libs.AndroidX.Lifecycle.viewmodel)
     implementation(Libs.Retrofit.retrofit)
     implementation(Libs.Retrofit.gsonConverter)
+    implementation(Libs.Retrofit.retrofitConverterMoshi)
+    implementation(Libs.Retrofit.retrofitKotlinMoshi)
+
+
     implementation(Libs.Accompanist.insets)
     implementation(Libs.Accompanist.coil)
 }

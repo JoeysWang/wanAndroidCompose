@@ -12,6 +12,14 @@ object Libs {
 
     const val material = "com.google.android.material:material:1.3.0"
 
+    object Project {
+        const val applicationId = "com.joeys.wanandroid"
+        const val minSdk = 21
+        const val targetSdk = 30
+        const val versionCode = 1
+        const val versionName = "1.0"
+    }
+
     object Kotlin {
         private const val version = "1.4.32"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
@@ -33,8 +41,11 @@ object Libs {
     }
 
     object Retrofit {
-        const val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
-        const val gsonConverter = "com.squareup.retrofit2:converter-gson:2.9.0"
+        private const val version = "2.9.0"
+        const val retrofit = "com.squareup.retrofit2:retrofit:$version"
+        const val gsonConverter = "com.squareup.retrofit2:converter-gson:$version"
+        const val retrofitConverterMoshi = "com.squareup.retrofit2:converter-moshi:$version"
+        const val retrofitKotlinMoshi = "com.squareup.moshi:moshi-kotlin:1.7.0"
     }
 
     object AndroidX {
@@ -65,6 +76,7 @@ object Libs {
 
         object Navigation {
             private const val version = "2.3.4"
+            const val composeNavigation = "androidx.navigation:navigation-compose:1.0.0-alpha10"
             const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
             const val uiKtx = "androidx.navigation:navigation-ui-ktx:$version"
         }
