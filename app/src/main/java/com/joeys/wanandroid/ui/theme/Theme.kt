@@ -30,7 +30,6 @@ private val DarkColorPalette = darkColors(
     background = Color.Black,
     onSurface = Color.White,
     onBackground = Color.White,
-
     )
 
 private val LightColorPalette = lightColors(

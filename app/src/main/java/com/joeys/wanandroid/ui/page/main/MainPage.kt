@@ -1,17 +1,23 @@
 package com.joeys.wanandroid.ui.page.main
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.*
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.activity
 import androidx.navigation.compose.*
+import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.statusBarsPadding
 import com.joeys.wanandroid.R
 import com.joeys.wanandroid.Screen
 import com.joeys.wanandroid.ui.page.main.home.Home
@@ -23,7 +29,6 @@ import com.joeys.wanandroid.ui.page.web.WebActivity
 
 @Composable
 fun MainPage() {
-
 
     val navController = rememberNavController()
     val homePages = listOf(
@@ -41,7 +46,6 @@ fun MainPage() {
             currentScreen = screen
         }
     }
-
     var bottomBarVisible by remember { mutableStateOf(true) }
     bottomBarVisible =
         if (lazyListState.isScrollingUp() != bottomBarVisible) lazyListState.isScrollingUp() else bottomBarVisible
@@ -70,8 +74,8 @@ private fun Content(lazyListState: LazyListState, navController: NavHostControll
     val userViewModel: UserViewModel = viewModel()
 
     NavHost(navController = navController, startDestination = Screen.Home.route) {
-        composable(Screen.Home.route) { Home(homeViewModel,lazyListState, navController) }
-        composable(Screen.Profile.route) { Profile(userViewModel,navController) }
+        composable(Screen.Home.route) { Home(homeViewModel, lazyListState, navController) }
+        composable(Screen.Profile.route) { Profile(userViewModel, navController) }
         activity(R.id.navigation_web_activity) {
             activityClass = WebActivity::class
         }
@@ -81,8 +85,11 @@ private fun Content(lazyListState: LazyListState, navController: NavHostControll
 @Composable
 private fun TopBar(currentScreen: Screen) {
     TopAppBar(
-        title = { Text(text = stringResource(id = currentScreen.resourceId)) },
-        backgroundColor = MaterialTheme.colors.surface
+        title = { Text(text = stringResource(id = currentScreen.resourceId), color = Color.White) },
+        Modifier
+            .background(Color.Black)
+            .statusBarsPadding(),
+        backgroundColor = Color.Black
     )
 }
 

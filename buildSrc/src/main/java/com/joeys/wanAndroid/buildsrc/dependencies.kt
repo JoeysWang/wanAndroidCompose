@@ -58,7 +58,7 @@ object Libs {
 
         object Compose {
             const val snapshot = ""
-            const val version = "1.0.0-beta04"
+            const val version = "1.0.0-beta06"
 
             const val foundation = "androidx.compose.foundation:foundation:$version"
             const val layout = "androidx.compose.foundation:foundation-layout:$version"
