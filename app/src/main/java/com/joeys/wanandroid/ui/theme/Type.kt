@@ -17,38 +17,55 @@ package com.joeys.wanandroid.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.joeys.wanandroid.R
+
+val LxgFontFamily = FontFamily(
+    Font(R.font.lxgwwenkai_light, FontWeight.Light),
+    Font(R.font.lxgwwenkai_regular, FontWeight.Normal),
+    Font(R.font.lxgwwenkai_bold, FontWeight.Bold)
+)
 
 // Set of Material typography styles to start with
 val typography = Typography(
+    defaultFontFamily = LxgFontFamily,
     body1 = TextStyle(
-        fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),
     h5 = TextStyle(
+
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp,
         letterSpacing = 0.sp
     ),
     subtitle1 = TextStyle(
+
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         letterSpacing = 0.15.sp
     ),
     subtitle2 = TextStyle(
+
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
         letterSpacing = 0.15.sp
     ),
     caption = TextStyle(
+
         fontWeight = FontWeight.Thin,
         fontSize = 12.sp,
         letterSpacing = 0.4.sp
     ),
+    button = TextStyle(
 
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        letterSpacing = 1.25.sp
+    ),
     /* Other default text styles to override
 button = TextStyle(
     fontFamily = FontFamily.Default,

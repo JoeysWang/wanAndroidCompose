@@ -28,9 +28,13 @@ class UserViewModel : ViewModel() {
         }
     }
 
+    fun login() {
+        "UserViewModel login ${userName.value}  ${passWord.value}".log()
+
+    }
+
     override fun onCleared() {
         super.onCleared()
         "UserViewModel onCleared".log()
-
     }
 }

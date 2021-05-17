@@ -18,20 +18,29 @@ import com.joeys.wanandroid.R
 import com.joeys.wanandroid.data.Article
 import com.joeys.wanandroid.ui.page.web.WebActivity
 import com.joeys.wanandroid.ui.theme.typography
+import com.joeys.wanandroid.widget.isReachTheEnd
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 
+@OptIn(InternalCoroutinesApi::class)
 @Composable
 fun Home(
     homeViewModel: HomeViewModel,
-    lazyListState: LazyListState,
+    listState: LazyListState,
     navController: NavHostController
 ) {
+    listState.isReachTheEnd {
+        homeViewModel.getNextPage()
+    }
 
     Box(Modifier.fillMaxSize()) {
         Column() {
             val list by homeViewModel.articles.observeAsState()
             LazyColumn(
                 Modifier.fillMaxSize(),
-                state = lazyListState
+                state = listState
             ) {
                 itemsIndexed(list.orEmpty()) { index, article ->
                     FeedCard(navController, article)
@@ -43,8 +52,10 @@ fun Home(
                                 .height(60.dp)
                                 .fillMaxWidth(), Alignment.Center
                         ) {
-                            CircularProgressIndicator(Modifier
-                                .height(40.dp))
+                            CircularProgressIndicator(
+                                Modifier
+                                    .height(40.dp)
+                            )
                         }
 
                     }
@@ -53,6 +64,7 @@ fun Home(
         }
     }
 }
+
 
 @Composable
 private fun FeedCard(
@@ -83,15 +95,17 @@ private fun FeedCard(
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
             ) {
-                Text(
-                    text = article.shareUser.orEmpty(),
-                    style = typography.caption
-                )
-                Text(
-                    text = "",
-                    Modifier.padding(10.dp, 0.dp),
-                    style = typography.caption
-                )
+                if (!article.shareUser.isEmpty()) {
+                    Text(
+                        text = article.shareUser.orEmpty(),
+                        style = typography.caption
+                    )
+                    Text(
+                        text = "",
+                        Modifier.padding(10.dp, 0.dp),
+                        style = typography.caption
+                    )
+                }
                 Text(
                     text = article.niceDate.orEmpty(),
                     style = typography.caption
@@ -101,20 +115,3 @@ private fun FeedCard(
     }
 }
 
-@Composable
-fun LazyListState.isScrollingUp(): Boolean {
-    var previousIndex by remember(this) { mutableStateOf(firstVisibleItemIndex) }
-    var previousScrollOffset by remember(this) { mutableStateOf(firstVisibleItemScrollOffset) }
-    return remember(this) {
-        derivedStateOf {
-            if (previousIndex != firstVisibleItemIndex) {
-                previousIndex > firstVisibleItemIndex
-            } else {
-                previousScrollOffset >= firstVisibleItemScrollOffset
-            }.also {
-                previousIndex = firstVisibleItemIndex
-                previousScrollOffset = firstVisibleItemScrollOffset
-            }
-        }
-    }.value
-}

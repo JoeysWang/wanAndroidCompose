@@ -1,23 +1,18 @@
 package com.joeys.wanandroid.ui.page.main
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.activity
 import androidx.navigation.compose.*
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsPadding
 import com.joeys.wanandroid.R
 import com.joeys.wanandroid.Screen
 import com.joeys.wanandroid.ui.page.main.home.Home
@@ -26,6 +21,11 @@ import com.joeys.wanandroid.ui.page.main.home.isScrollingUp
 import com.joeys.wanandroid.ui.page.main.profile.Profile
 import com.joeys.wanandroid.ui.page.main.profile.UserViewModel
 import com.joeys.wanandroid.ui.page.web.WebActivity
+import com.joeys.wanandroid.widget.TopBar
+import com.joeys.wanandroid.widget.isScrollingUp
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 
 @Composable
 fun MainPage() {
@@ -39,30 +39,33 @@ fun MainPage() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
     var currentScreen: Screen = Screen.Home
-    val lazyListState = rememberLazyListState()
+    val listState = rememberLazyListState()
+    val homeViewModel: HomeViewModel = viewModel()
 
     homePages.forEach { screen ->
         if (currentRoute == screen.route) {
             currentScreen = screen
         }
     }
-    var bottomBarVisible by remember { mutableStateOf(true) }
-    bottomBarVisible =
-        if (lazyListState.isScrollingUp() != bottomBarVisible) lazyListState.isScrollingUp() else bottomBarVisible
+
+    val bottomBarVisible = homeViewModel.bottomBarVisible.collectAsState(initial = true)
+    homeViewModel.setBottomBarVisible(
+        listState.isScrollingUp()
+    )
 
     Scaffold(
-        bottomBar = {
-            BottomBar(
-                bottomBarVisible,
-                navController,
-                homePages,
-                currentScreen
-            )
+        bottomBar = BottomBar(
+            bottomBarVisible.value,
+            navController,
+            homePages,
+            currentScreen
+        ),
+        topBar = {
+            TopBar(stringResource(id = currentScreen.resourceId))
         },
-        topBar = { TopBar(currentScreen) },
         content = {
             Content(
-                lazyListState,
+                listState,
                 navController
             )
         })
@@ -82,17 +85,6 @@ private fun Content(lazyListState: LazyListState, navController: NavHostControll
     }
 }
 
-@Composable
-private fun TopBar(currentScreen: Screen) {
-    TopAppBar(
-        title = { Text(text = stringResource(id = currentScreen.resourceId), color = Color.White) },
-        Modifier
-            .background(Color.Black)
-            .statusBarsPadding(),
-        backgroundColor = Color.Black
-    )
-}
-
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -101,53 +93,53 @@ private fun BottomBar(
     navController: NavHostController,
     homePages: List<Screen>,
     currentScreen: Screen
-) {
+) =
+    @Composable {
+        AnimatedVisibility(
+            visible = visible,
+            enter = slideInVertically(
+                initialOffsetY = { fullHeight -> fullHeight },
+                animationSpec = tween(durationMillis = 150)
+            ),
+            exit = slideOutVertically(
+                targetOffsetY = { fullHeight -> fullHeight },
+                animationSpec = tween(durationMillis = 150)
+            )
+        ) {
+            BottomNavigation(backgroundColor = MaterialTheme.colors.surface) {
+                homePages.forEach { screen ->
+                    val selected = currentScreen.route == screen.route
+                    val color by animateColorAsState(
+                        if (selected) MaterialTheme.colors.primary
+                        else contentColorFor(backgroundColor = MaterialTheme.colors.onSurface)
+                    )
 
-    AnimatedVisibility(
-        visible = visible,
-//        I have no idea why these didn't work
-//        enter = slideInVertically(
-//            initialOffsetY = { fullHeight -> fullHeight },
-//            animationSpec = tween(durationMillis = 150, )
-//        ),
-//        exit = slideOutVertically(
-//            targetOffsetY = { fullHeight -> fullHeight },
-//            animationSpec = tween(durationMillis = 250,)
-//        )
-    ) {
-        BottomNavigation(backgroundColor = MaterialTheme.colors.surface) {
-            homePages.forEach { screen ->
-                val selected = currentScreen.route == screen.route
-                val color by animateColorAsState(
-                    if (selected) MaterialTheme.colors.primary
-                    else contentColorFor(backgroundColor = MaterialTheme.colors.onSurface)
-                )
-
-                BottomNavigationItem(
-                    selected = selected,
-                    onClick = {
-                        navController.navigate(screen.route) {
-                            launchSingleTop = true
-                            popUpTo = navController.graph.startDestination
-                        }
-                    },
-                    icon = {
-                        Image(
-                            imageVector = if (selected) screen.iconSelected else screen.iconUnSelected,
-                            contentDescription = "icon",
-                            colorFilter = ColorFilter.tint(
-                                color
+                    BottomNavigationItem(
+                        selected = selected,
+                        onClick = {
+                            navController.navigate(screen.route) {
+                                launchSingleTop = true
+                                popUpTo = navController.graph.startDestination
+                            }
+                        },
+                        icon = {
+                            Image(
+                                imageVector = if (selected) screen.iconSelected else screen.iconUnSelected,
+                                contentDescription = "icon",
+                                colorFilter = ColorFilter.tint(
+                                    color
+                                )
                             )
-                        )
-                    },
-                    label = {
-                        Text(
-                            text = stringResource(screen.resourceId),
-                            color = color
-                        )
-                    })
+                        },
+                        label = {
+                            Text(
+                                text = stringResource(screen.resourceId),
+                                color = color
+                            )
+                        })
+                }
             }
         }
-    }
 
-}
+
+    }
