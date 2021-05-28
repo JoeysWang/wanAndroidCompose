@@ -17,7 +17,6 @@ import com.joeys.wanandroid.R
 import com.joeys.wanandroid.Screen
 import com.joeys.wanandroid.ui.page.main.home.Home
 import com.joeys.wanandroid.ui.page.main.home.HomeViewModel
-import com.joeys.wanandroid.ui.page.main.home.isScrollingUp
 import com.joeys.wanandroid.ui.page.main.profile.Profile
 import com.joeys.wanandroid.ui.page.main.profile.UserViewModel
 import com.joeys.wanandroid.ui.page.web.WebActivity

@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.0.0-beta02")
+        classpath("com.android.tools.build:gradle:7.1.0-alpha01")
         classpath(com.joeys.wanAndroid.buildsrc.Libs.Kotlin.gradlePlugin)
     }
 }
