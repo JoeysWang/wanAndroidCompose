@@ -38,6 +38,7 @@ fun Home(
     Box(Modifier.fillMaxSize()) {
         Column() {
             val list by homeViewModel.articles.observeAsState()
+            val isRefreshing by homeViewModel.isRefreshing.collectAsState()
             LazyColumn(
                 Modifier.fillMaxSize(),
                 state = listState

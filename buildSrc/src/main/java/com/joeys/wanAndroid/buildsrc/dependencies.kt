@@ -21,7 +21,7 @@ object Libs {
     }
 
     object Kotlin {
-        private const val version = "1.5.0"
+        private const val version = "1.4.32"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
         const val extensions = "org.jetbrains.kotlin:kotlin-android-extensions:$version"
@@ -35,9 +35,10 @@ object Libs {
     }
 
     object Accompanist {
-        private const val version = "0.7.1"
+        private const val version = "0.10.0"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
         const val coil = "com.google.accompanist:accompanist-coil:$version"
+        const val swiperefresh= "com.google.accompanist:accompanist-swiperefresh:$version"
     }
 
     object Retrofit {
@@ -58,7 +59,7 @@ object Libs {
 
         object Compose {
             const val snapshot = ""
-            const val version = "1.0.0-beta06"
+            const val version = "1.0.0-beta07"
 
             const val foundation = "androidx.compose.foundation:foundation:$version"
             const val layout = "androidx.compose.foundation:foundation-layout:$version"
@@ -75,8 +76,8 @@ object Libs {
         }
 
         object Navigation {
-            private const val version = "2.3.4"
-            const val composeNavigation = "androidx.navigation:navigation-compose:1.0.0-alpha10"
+            private const val version = "2.4.0-alpha01"
+            const val composeNavigation = "androidx.navigation:navigation-compose:$version"
             const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
             const val uiKtx = "androidx.navigation:navigation-ui-ktx:$version"
         }

@@ -36,7 +36,7 @@ fun MainPage() {
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
+    val currentRoute = navBackStackEntry?.destination?.route
     var currentScreen: Screen = Screen.Home
     val listState = rememberLazyListState()
     val homeViewModel: HomeViewModel = viewModel()
@@ -118,7 +118,7 @@ private fun BottomBar(
                         onClick = {
                             navController.navigate(screen.route) {
                                 launchSingleTop = true
-                                popUpTo = navController.graph.startDestination
+                                popUpTo = navController.graph.startDestinationId
                             }
                         },
                         icon = {

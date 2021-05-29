@@ -1,5 +1,6 @@
 package com.joeys.wanandroid.ui.page.main.home
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,6 +23,8 @@ class HomeViewModel : ViewModel() {
     private val _bottomBarVisible = MutableStateFlow(true)
     val bottomBarVisible = _bottomBarVisible
         .debounce(100L)
+
+    val isRefreshing =MutableStateFlow(true)
 
     private var currentPage = 0
 
