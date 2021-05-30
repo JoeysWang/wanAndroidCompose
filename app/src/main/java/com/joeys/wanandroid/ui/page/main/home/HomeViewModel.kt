@@ -1,6 +1,5 @@
 package com.joeys.wanandroid.ui.page.main.home
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,11 +23,11 @@ class HomeViewModel : ViewModel() {
     val bottomBarVisible = _bottomBarVisible
         .debounce(100L)
 
-    val isRefreshing =MutableStateFlow(true)
+    val isRefreshing = MutableLiveData(true)
+    val isLoadingMore = MutableLiveData(false)
 
     private var currentPage = 0
 
-    val loading = MutableLiveData(false)
 
     init {
         "HomeViewModel init".log()
@@ -46,7 +45,11 @@ class HomeViewModel : ViewModel() {
 
     fun getArticle(page: Int = 0) {
         "getArticle $page".log()
-        loading.postValue(true)
+        if (page == 0)
+            isRefreshing.value = true
+        else
+            isLoadingMore.value = true
+
         viewModelScope.launch(Dispatchers.IO) {
             val result = try {
                 api.getArticles(page)
@@ -55,15 +58,20 @@ class HomeViewModel : ViewModel() {
             }
             if (result?.errorCode == 0) {
                 currentPage = page
-
-                val resultList = _articles.value.orEmpty().toMutableList()
-                resultList.addAll(result.data.datas)
+                val resultList = mutableListOf<Article>()
+                if (page == 0) {
+                    resultList.addAll(result.data.datas)
+                } else {
+                    resultList.addAll(_articles.value.orEmpty())
+                    resultList.addAll(result.data.datas)
+                }
                 _articles.postValue(resultList)
                 "getArticle success".log()
             } else {
                 "getArticle error: ${result?.errorMsg}".log()
             }
-            loading.postValue(false)
+            isRefreshing.postValue(false)
+            isLoadingMore.postValue(false)
         }
     }
 

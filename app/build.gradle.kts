@@ -76,5 +76,5 @@ dependencies {
 
     implementation(Libs.Accompanist.insets)
     implementation(Libs.Accompanist.coil)
-//    implementation(Libs.Accompanist.swiperefresh)
+    implementation(Libs.Accompanist.swiperefresh)
 }

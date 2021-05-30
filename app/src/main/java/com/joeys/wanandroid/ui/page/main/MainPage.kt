@@ -32,6 +32,7 @@ fun MainPage() {
     val navController = rememberNavController()
     val homePages = listOf(
         Screen.Home,
+        Screen.Test,
         Screen.Profile,
     )
 
@@ -77,6 +78,7 @@ private fun Content(lazyListState: LazyListState, navController: NavHostControll
 
     NavHost(navController = navController, startDestination = Screen.Home.route) {
         composable(Screen.Home.route) { Home(homeViewModel, lazyListState, navController) }
+        composable(Screen.Test.route) { Test() }
         composable(Screen.Profile.route) { Profile(userViewModel, navController) }
         activity(R.id.navigation_web_activity) {
             activityClass = WebActivity::class
@@ -94,49 +96,49 @@ private fun BottomBar(
     currentScreen: Screen
 ) =
     @Composable {
-        AnimatedVisibility(
-            visible = visible,
-            enter = slideInVertically(
-                initialOffsetY = { fullHeight -> fullHeight },
-                animationSpec = tween(durationMillis = 150)
-            ),
-            exit = slideOutVertically(
-                targetOffsetY = { fullHeight -> fullHeight },
-                animationSpec = tween(durationMillis = 150)
-            )
-        ) {
-            BottomNavigation(backgroundColor = MaterialTheme.colors.surface) {
-                homePages.forEach { screen ->
-                    val selected = currentScreen.route == screen.route
-                    val color by animateColorAsState(
-                        if (selected) MaterialTheme.colors.primary
-                        else contentColorFor(backgroundColor = MaterialTheme.colors.onSurface)
-                    )
+//        AnimatedVisibility(
+//            visible = visible,
+//            enter = slideInVertically(
+//                initialOffsetY = { fullHeight -> fullHeight },
+//                animationSpec = tween(durationMillis = 150)
+//            ),
+//            exit = slideOutVertically(
+//                targetOffsetY = { fullHeight -> fullHeight },
+//                animationSpec = tween(durationMillis = 150)
+//            )
+//        ) {
+//        }
+        BottomNavigation(backgroundColor = MaterialTheme.colors.surface) {
+            homePages.forEach { screen ->
+                val selected = currentScreen.route == screen.route
+                val color by animateColorAsState(
+                    if (selected) MaterialTheme.colors.primary
+                    else contentColorFor(backgroundColor = MaterialTheme.colors.onSurface)
+                )
 
-                    BottomNavigationItem(
-                        selected = selected,
-                        onClick = {
-                            navController.navigate(screen.route) {
-                                launchSingleTop = true
-                                popUpTo = navController.graph.startDestinationId
-                            }
-                        },
-                        icon = {
-                            Image(
-                                imageVector = if (selected) screen.iconSelected else screen.iconUnSelected,
-                                contentDescription = "icon",
-                                colorFilter = ColorFilter.tint(
-                                    color
-                                )
+                BottomNavigationItem(
+                    selected = selected,
+                    onClick = {
+                        navController.navigate(screen.route) {
+                            launchSingleTop = true
+                            popUpTo = navController.graph.startDestinationId
+                        }
+                    },
+                    icon = {
+                        Image(
+                            imageVector = if (selected) screen.iconSelected else screen.iconUnSelected,
+                            contentDescription = "icon",
+                            colorFilter = ColorFilter.tint(
+                                color
                             )
-                        },
-                        label = {
-                            Text(
-                                text = stringResource(screen.resourceId),
-                                color = color
-                            )
-                        })
-                }
+                        )
+                    },
+                    label = {
+                        Text(
+                            text = stringResource(screen.resourceId),
+                            color = color
+                        )
+                    })
             }
         }
 

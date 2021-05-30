@@ -11,5 +11,6 @@
       -->
     <string name="app_name">WanAndroid</string>
     <string name="home">Home</string>
+    <string name="test">Test</string>
     <string name="profile">Profile</string>
 </resources>
