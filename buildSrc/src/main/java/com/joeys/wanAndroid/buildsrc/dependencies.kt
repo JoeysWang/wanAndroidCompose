@@ -21,21 +21,21 @@ object Libs {
     }
 
     object Kotlin {
-        private const val version = "1.4.32"
+        private const val version = "1.5.10"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
         const val extensions = "org.jetbrains.kotlin:kotlin-android-extensions:$version"
     }
 
     object Coroutines {
-        private const val version = "1.4.3"
+        private const val version = "1.5.0"
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
         const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
         const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
     }
 
     object Accompanist {
-        private const val version = "0.10.0"
+        private const val version = "0.11.1"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
         const val coil = "com.google.accompanist:accompanist-coil:$version"
         const val swiperefresh= "com.google.accompanist:accompanist-swiperefresh:$version"
@@ -59,7 +59,7 @@ object Libs {
 
         object Compose {
             const val snapshot = ""
-            const val version = "1.0.0-beta07"
+            const val version = "1.0.0-beta08"
 
             const val foundation = "androidx.compose.foundation:foundation:$version"
             const val layout = "androidx.compose.foundation:foundation-layout:$version"
